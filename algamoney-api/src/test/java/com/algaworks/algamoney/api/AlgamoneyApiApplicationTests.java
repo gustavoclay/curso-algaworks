@@ -1,4 +1,4 @@
-package com.algaworks.algamoneyapi.algamoneyapi;
+package com.algaworks.algamoney.api;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
