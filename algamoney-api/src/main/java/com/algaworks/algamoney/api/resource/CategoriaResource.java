@@ -38,9 +38,15 @@ public class CategoriaResource {
 	}
 
 	@GetMapping("/{codigo}")
-	public ResponseEntity<Categoria> buscaPeloCodigo(@PathVariable long codigo) {
+	public ResponseEntity<Categoria> buscaPeloCodigo(@PathVariable Long codigo) {
 		Categoria categoria = categoriaRepository.findOne(codigo);
 		return categoria != null ? ResponseEntity.ok(categoria) : ResponseEntity.notFound().build();
+	}
+
+	@DeleteMapping("/{codigo}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long codigo){
+		categoriaRepository.delete(codigo);
 	}
 
 }
