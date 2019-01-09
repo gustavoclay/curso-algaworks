@@ -3,6 +3,8 @@ package com.algaworks.algamoney.api.resource;
 import com.algaworks.algamoney.api.event.RecursoCriadoEvent;
 import com.algaworks.algamoney.api.model.Lancamento;
 import com.algaworks.algamoney.api.repository.LancamentoRepository;
+import com.algaworks.algamoney.api.repository.filter.LancamentoFilter;
+import com.algaworks.algamoney.api.service.LancamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -21,10 +23,13 @@ public class LancamentoRecurso {
 	private LancamentoRepository lancamentoRepository;
 
 	@Autowired
+	private LancamentoService lancamentoService;
+
+	@Autowired
 	private ApplicationEventPublisher publisher;
 
 	@GetMapping
-	public List<Lancamento> listar() {
+	public List<Lancamento> pesquisar(LancamentoFilter lancamentoFilter) {
 		return lancamentoRepository.findAll();
 	}
 
@@ -35,12 +40,14 @@ public class LancamentoRecurso {
 	}
 
 	@PostMapping
-	public ResponseEntity<Lancamento> criar(@Valid @RequestBody Lancamento lancamento, HttpServletResponse reponse){
-		Lancamento lancamentoSalvo = lancamentoRepository.save(lancamento);
+	public ResponseEntity<Lancamento> criar(@Valid @RequestBody Lancamento lancamento, HttpServletResponse reponse) {
+		Lancamento lancamentoSalvo = lancamentoService.salvar(lancamento);
 
-		publisher.publishEvent(new RecursoCriadoEvent(this, reponse,lancamentoSalvo.getCodigo()));
+		publisher.publishEvent(new RecursoCriadoEvent(this, reponse, lancamentoSalvo.getCodigo()));
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(lancamentoSalvo);
 	}
+
+
 
 }

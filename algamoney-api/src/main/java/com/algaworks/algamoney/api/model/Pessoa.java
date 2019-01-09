@@ -1,9 +1,10 @@
 package com.algaworks.algamoney.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Objects;
 
 @Entity
 @Table(name = "pessoa")
@@ -41,6 +42,12 @@ public class Pessoa {
 
 	public Boolean isAtivo() {
 		return ativo;
+	}
+
+	@JsonIgnore
+	@Transient
+	public Boolean isInativo() {
+		return !this.ativo;
 	}
 
 	public void setAtivo(Boolean ativo) {
