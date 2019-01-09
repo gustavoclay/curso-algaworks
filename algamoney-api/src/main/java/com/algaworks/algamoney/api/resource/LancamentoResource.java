@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/lancamentos")
-public class LancamentoRecurso {
+public class LancamentoResource {
 
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
@@ -30,7 +30,7 @@ public class LancamentoRecurso {
 
 	@GetMapping
 	public List<Lancamento> pesquisar(LancamentoFilter lancamentoFilter) {
-		return lancamentoRepository.findAll();
+		return lancamentoRepository.filtrar(lancamentoFilter);
 	}
 
 	@GetMapping("/{codigo}")

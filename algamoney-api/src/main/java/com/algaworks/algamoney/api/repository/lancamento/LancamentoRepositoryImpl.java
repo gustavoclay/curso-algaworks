@@ -1,6 +1,8 @@
-package com.algaworks.algamoney.api.repository.filter;
+package com.algaworks.algamoney.api.repository.lancamento;
 
 import com.algaworks.algamoney.api.model.Lancamento;
+import com.algaworks.algamoney.api.model.Lancamento_;
+import com.algaworks.algamoney.api.repository.filter.LancamentoFilter;
 import com.algaworks.algamoney.api.repository.lancamento.LancamentoRepositoryQuery;
 import org.springframework.util.StringUtils;
 
@@ -14,11 +16,12 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LancamentoFilterImpl implements LancamentoRepositoryQuery {
+public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 
 	@PersistenceContext
 	private EntityManager manager;
 
+	@Override
 	public List<Lancamento> filtrar(LancamentoFilter lancamentoFilter) {
 		// Configuração Criteria
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
@@ -40,17 +43,22 @@ public class LancamentoFilterImpl implements LancamentoRepositoryQuery {
 
 		if (!StringUtils.isEmpty(lancamentoFilter.getDescricao())) {
 			predicates.add(builder.like(builder
-							.lower(root.get("descricao")), "%" + lancamentoFilter.getDescricao().toLowerCase() + "%"));
+							.lower(root.get(Lancamento_.descricao)), "%" + lancamentoFilter.getDescricao().toLowerCase() + "%"));
 		}
 
 		if (lancamentoFilter.getDataVencimentoDe() != null) {
-			//predicates.add(e);
+			predicates.add(
+							builder.greaterThanOrEqualTo(root.get(Lancamento_.dataVencimento), lancamentoFilter.getDataVencimentoDe())
+			);
 		}
 
 		if (lancamentoFilter.getDataVencimentoAte() != null) {
-			//predicates.add(e);
+			predicates.add(
+							builder.lessThanOrEqualTo(root.get(Lancamento_.dataVencimento), lancamentoFilter.getDataVencimentoAte())
+			);
 		}
 
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
+
 }
