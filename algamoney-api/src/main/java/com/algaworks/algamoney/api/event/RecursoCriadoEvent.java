@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RecursoCriadoEvent extends ApplicationEvent {
 
+	private static final long serialVersionUID = 9213910364819932277L;
 	private HttpServletResponse response;
 	private Long codigo;
 

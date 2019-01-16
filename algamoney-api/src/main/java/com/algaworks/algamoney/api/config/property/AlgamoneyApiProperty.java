@@ -7,6 +7,8 @@ public class AlgamoneyApiProperty {
 
 	private String originPermitido = "http://localhost:8000";
 
+	private final Seguranca seguranca = new Seguranca();
+
 	public String getOriginPermitido() {
 		return originPermitido;
 	}
@@ -14,8 +16,6 @@ public class AlgamoneyApiProperty {
 	public void setOriginPermitido(String originPermitido) {
 		this.originPermitido = originPermitido;
 	}
-
-	private final Seguranca seguranca = new Seguranca();
 
 	public Seguranca getSeguranca() {
 		return seguranca;

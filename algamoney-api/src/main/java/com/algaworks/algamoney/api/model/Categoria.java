@@ -3,7 +3,6 @@ package com.algaworks.algamoney.api.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Objects;
 
 @Entity
 @Table(name = "categoria")
