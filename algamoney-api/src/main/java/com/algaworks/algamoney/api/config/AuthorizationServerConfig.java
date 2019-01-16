@@ -4,6 +4,7 @@ import com.algaworks.algamoney.api.config.token.CustomTokenEnhancer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -17,6 +18,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import java.util.Arrays;
 
+@Profile("oauth-secure")
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
@@ -35,7 +37,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 						.refreshTokenValiditySeconds(3600 * 24)
 						.and()
 						.withClient("mobile")
-						.secret("m0b1l3")
+						.secret("mobile")
 						.scopes("read")
 						.authorizedGrantTypes("password", "refresh_token")
 						.accessTokenValiditySeconds(1800)
