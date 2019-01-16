@@ -25,13 +25,13 @@ public class CategoriaResource {
 	private ApplicationEventPublisher publisher;
 
 	@GetMapping
-	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
 	public List<Categoria> listar() {
 		return categoriaRepository.findAll();
 	}
 
 	@PostMapping
-	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA')")
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
 	public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
 		Categoria categoriaSalva = categoriaRepository.save(categoria);
 
@@ -41,17 +41,17 @@ public class CategoriaResource {
 	}
 
 	@GetMapping("/{codigo}")
-	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')  and #oauth2.hasScope('read')")
 	public ResponseEntity<Categoria> buscaPeloCodigo(@PathVariable Long codigo) {
 		Categoria categoria = categoriaRepository.findOne(codigo);
 		return categoria != null ? ResponseEntity.ok(categoria) : ResponseEntity.notFound().build();
 	}
 
-	@DeleteMapping("/{codigo}")
+	/*@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long codigo){
+	public void remover(@PathVariable Long codigo) {
 		categoriaRepository.delete(codigo);
-	}
+	}*/
 
 }
 
